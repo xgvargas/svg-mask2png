@@ -17,17 +17,17 @@ You can require it on your code:
 ```js
 var svgMask2png = require('svg-mask2png');
 
-svgMask2png('input.svg', {
+svgMask2png('input.svg', { // single filename or an array of filenames
     // default values
-    mask: 'xx',
-    color: null,
-    outpath: './',
-    n: 3,
-    verbose: false
+    mask    : 'xx',
+    color   : null,
+    outpath : './',
+    n       : 3,
+    verbose : false
 })
 .then(function(result){
     console.log('extracted objects: ', result[0]);
-    console.log('all objects: ', result[1]);
+    console.log('total objects: ', result[1]);
 })
 .catch(function(err){
     console.log(err);
@@ -37,17 +37,15 @@ svgMask2png('input.svg', {
 Or, if installed as global, you can execute:
 
 ```bash
-
 $ svg-m2png --help
 
 #example
-
-$ svg-m2png -o images input.svg
+$ svg-m2png -o images input.svg [other.svg ...]
 ```
 
 ## Options
 
-- `mask` - mask to match the start if ID name
+- `mask` - mask to match the start of ID name
 - `color` - color to be converted to transparent, must be in form: `#123abc`
 - `outpath` - path to PNG destination
 - `n` - number of concurrent processes

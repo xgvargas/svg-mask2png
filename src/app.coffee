@@ -10,7 +10,7 @@ commander
     .option '-m, --mask <mask>', 'regex mask selector (default: `xx`)'
     .option '-t, --transparent <color>', 'transparent color'
     .option '--verbose', 'enable verbose mode'
-    .arguments '<file.svg>'
+    .arguments '<file.svg...>'
     .on '--help', -> console.log """
         Will extract to PNG every path or group inside the SVG file which name
         starts with mask pattern. Any thing else will be ignored. The mask portion
@@ -28,10 +28,12 @@ commander
             mask    : options.mask
             color   : options.transparent
             verbose : options.verbose
+
         .then (result) ->
             [valid, all] = result
-            console.log "\n Found #{chalk.yellow(all.length)} objects.
+            console.log "\n Found #{chalk.yellow(all)} objects.
                 Extracted #{chalk.green(valid.length)} objects matching the mask."
+
         .catch (err) ->
             console.log err
 
