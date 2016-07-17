@@ -23,11 +23,11 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git@github.com:xgvargas/svg-mask2png.git"
   },
   "bugs": {
-    "url": ""
+    "url": "https://github.com/xgvargas/svg-mask2png/issues"
   },
-  "homepage": "",
+  "homepage": "https://github.com/xgvargas/svg-mask2png#svg-mask2png",
   "keywords": []
 }

@@ -62,3 +62,24 @@ When creating fixed size images with transparent background I usually use a know
 ```bash
 $ svg-m2png -o images input.svg --transparent "#f2f2f2"
 ```
+
+## Developing
+
+If you want to change the code:
+
+```bash
+# clone it to a local folder
+git clone git@github.com:xgvargas/svg-mask2png.git
+
+# install dependencies
+npm install -g coffeescript
+npm install
+
+# install in dev mode
+npm link
+
+# compile code with:
+npm run compile
+# or
+npm run watch
+```

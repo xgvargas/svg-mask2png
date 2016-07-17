@@ -7,7 +7,7 @@ cmdok = no
 commander
     .version require('../package.json').version
     .option '-o, --out <path>', 'output path (default: `./`)'
-    .option '-m, --mask <mask>', 'regex mask selector (default: `xx\\w`)'
+    .option '-m, --mask <mask>', 'regex mask selector (default: `xx`)'
     .option '-t, --transparent <color>', 'transparent color'
     .option '--verbose', 'enable verbose mode'
     .arguments '<file.svg>'
