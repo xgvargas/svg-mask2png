@@ -29,5 +29,9 @@
     "url": "https://github.com/xgvargas/svg-mask2png/issues"
   },
   "homepage": "https://github.com/xgvargas/svg-mask2png#svg-mask2png",
-  "keywords": []
+  "keywords": [
+    "svg",
+    "png",
+    "convert"
+  ]
 }

@@ -8,11 +8,12 @@ exports = module.exports = (sources, options) ->
     new Promise (resolve, reject) ->
 
         cfg =
-            mask: 'xx'
-            color: null
-            outpath: './'
-            n: 3
-            verbose: false
+            mask    : 'xx'
+            color   : null
+            outpath : './'
+            n       : 3
+            verbose : false
+            flat    : false
 
         cfg[k] = v for k, v of options when v?
 
@@ -25,6 +26,8 @@ exports = module.exports = (sources, options) ->
         sh.mkdir '-p', cfg.outpath
 
         Promise.reduce sources, (total, source) ->
+
+            sh.mkdir path.join cfg.outpath, path.basename source, '.svg' unless cfg.flat
 
             throw new Error "Oops! Can't find input file: #{source}" unless sh.test '-f', source
 
@@ -45,7 +48,12 @@ exports = module.exports = (sources, options) ->
                 valids = (m[1] for id in ids when (m = exmask.exec id)?)
 
                 Promise.map valids, (name) ->
-                    pngfile = path.join cfg.outpath, name + '.png'
+
+                    if cfg.flat
+                        pngfile = path.join cfg.outpath, name + '.png'
+                    else
+                        pngfile = path.join cfg.outpath, path.basename(source, '.svg'), name + '.png'
+
                     console.log "Exporting #{pngfile}" if cfg.verbose
                     execAsync "inkscape -z -d 90 -e #{pngfile} -j -i #{cfg.mask}#{name} #{tmp}"
                 ,

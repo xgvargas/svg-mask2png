@@ -24,6 +24,7 @@ svgMask2png('input.svg', { // single filename or an array of filenames
     outpath : './',
     n       : 3,
     verbose : false
+    flat    : false
 })
 .then(function(result){
     console.log('extracted objects: ', result[0]);
@@ -45,11 +46,14 @@ $ svg-m2png -o images input.svg [other.svg ...]
 
 ## Options
 
-- `mask` - mask to match the start of ID name
-- `color` - color to be converted to transparent, must be in form: `#123abc`
-- `outpath` - path to PNG destination
-- `n` - number of concurrent processes
-- `verbose` - if you want to print out the name of files while being extracted.
+option     | default   | description
+---------- | :-------: | ----------------------
+`mask`     | xx        | mask to match the start of ID name
+`color`    |           | color to be converted to transparent, must be in form: `#123abc`
+`outpath`  | ./        | path to PNG destination
+`n`        | 3         | number of concurrent processes
+`verbose`  | false     | if you want to print out the name of files while being extracted
+`flat`     | false     | If you *don't* want to put images of each SVG file inside a subfolder named as the SVG file
 
 ## Workflow
 
