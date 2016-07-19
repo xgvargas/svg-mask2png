@@ -17,14 +17,10 @@ You can require it on your code:
 ```js
 var svgMask2png = require('svg-mask2png');
 
-svgMask2png('input.svg', { // single filename or an array of filenames
-    // default values
-    mask    : 'xx',
-    color   : null,
-    outpath : './',
-    n       : 3,
-    verbose : false
-    flat    : false
+svgMask2png(['input.svg'], {  // <- notice filename is an array!
+    color   : '#f2f2f2',
+    outpath : 'images',
+    flat    : true
 })
 .then(function(result){
     console.log('extracted objects: ', result[0]);

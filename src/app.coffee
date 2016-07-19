@@ -1,15 +1,18 @@
-chalk     = require 'chalk'
-commander = new (require('commander').Command)('svg-m2png')
-svgM2png  = require './svg-m2png'
+chalk           = require 'chalk'
+commander       = new (require('commander').Command)('svg-m2png')
+{writeFileSync} = require 'fs'
+svgM2png        = require './svg-m2png'
+{join}          = require 'path'
 
 cmdok = no
 
 commander
     .version require('../package.json').version
-    .option '-o, --out <path>', 'output path (default: `./`)'
+    .option '-o, --out <path>', 'output path (default: `./`)', './'
     .option '-m, --mask <mask>', 'regex mask selector (default: `xx`)'
     .option '-t, --transparent <color>', 'transparent color'
     .option '-f, --flat', 'force a flat output layout'
+    .option '-l, --list [file]', 'save extracted file names to `file`'
     .option '-v, --verbose', 'enable verbose mode'
     .arguments '<file.svg...>'
     .on '--help', -> console.log """
@@ -21,6 +24,9 @@ commander
 
         By default every object of file1.svg will be extracted to folder `<out>/file1/`.
         If you set `flat` option then images are saved to `<out>/`.
+
+        If you do not supply a filename to `list` then it will save a file per each input svg
+        file, with pattern: `input.svg --> input.svg.extracted`.
 
         #{chalk.red('This program is just a helper! You MUST have inkscape in your path!')}
         """
@@ -35,9 +41,23 @@ commander
             flat    : options.flat
 
         .then (result) ->
-            [valid, all] = result
-            console.log "\n Found #{chalk.yellow(all)} objects.
-                Extracted #{chalk.green(valid.length)} objects matching the mask."
+            all   = []
+            total = 0
+            for k, v of result
+                all = [all..., v.images...]
+                total += v.total
+                if options.list is true
+                    fn = join options.out, k + '.extracted'
+                    console.log "------- Saving #{fn}" if options.verbose
+                    writeFileSync fn, v.images.join '\n'
+
+            if options.list and options.list isnt true
+                fn = join options.out, options.list
+                console.log "------- Saving #{fn}" if options.verbose
+                writeFileSync fn, all.join '\n'
+
+            console.log "\n Found #{chalk.yellow(total)} objects.
+                Extracted #{chalk.green(all.length)} objects matching the mask."
 
         .catch (err) ->
             console.log err

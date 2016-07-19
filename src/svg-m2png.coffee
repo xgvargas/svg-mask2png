@@ -23,11 +23,7 @@ exports = module.exports = (sources, options) ->
             unless /#[0-9a-f]{6}/.test cfg.color
                 throw new Error "Oops! Transparent color should be in the form: `#123456`"
 
-        sh.mkdir '-p', cfg.outpath
-
         Promise.reduce sources, (total, source) ->
-
-            sh.mkdir path.join cfg.outpath, path.basename source, '.svg' unless cfg.flat
 
             throw new Error "Oops! Can't find input file: #{source}" unless sh.test '-f', source
 
@@ -37,6 +33,8 @@ exports = module.exports = (sources, options) ->
             sh.cp source, tmp
 
             sh.sed '-i', cfg.color, 'none', tmp if cfg.color?
+
+            sh.mkdir '-p', path.join cfg.outpath, path.basename source, '.svg' unless cfg.flat
 
             execAsync 'inkscape -z -S ' + tmp
             .then (output) ->
@@ -59,11 +57,13 @@ exports = module.exports = (sources, options) ->
                 ,
                     concurrency: cfg.n
 
-                .then -> [ [total[0]..., valids...], total[1] + ids.length ]
+                .then ->
+                    total[source] = images: valids, total: ids.length
+                    total
 
             .finally -> sh.rm '-f', tmp
         ,
-            [[], 0]
+            {}
 
         .then (data) -> resolve data
 
