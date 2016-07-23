@@ -2,7 +2,7 @@ chalk           = require 'chalk'
 commander       = new (require('commander').Command)('svg-m2png')
 {writeFileSync} = require 'fs'
 svgM2png        = require './svg-m2png'
-{join}          = require 'path'
+{join}          = require('path').posix
 
 cmdok = no
 
@@ -49,12 +49,11 @@ commander
                 if options.list is true
                     fn = join options.out, k + '.extracted'
                     console.log "------- Saving #{fn}" if options.verbose
-                    writeFileSync fn, v.images.join '\n'
+                    writeFileSync fn, (join options.out, n + '.png' for n in v.images).join '\n'
 
             if options.list and options.list isnt true
-                fn = join options.out, options.list
-                console.log "------- Saving #{fn}" if options.verbose
-                writeFileSync fn, all.join '\n'
+                console.log "------- Saving #{options.list}" if options.verbose
+                writeFileSync options.list, (join options.out, n + '.png' for n in all).join '\n'
 
             console.log "\n Found #{chalk.yellow(total)} objects.
                 Extracted #{chalk.green(all.length)} objects matching the mask."
