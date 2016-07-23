@@ -1,6 +1,6 @@
 {
   "name": "svg-mask2png",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Masked SVG Id to PNG exporter.",
   "scripts": {
     "prepublish": "npm run compile",
