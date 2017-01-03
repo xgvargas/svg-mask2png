@@ -19,8 +19,7 @@
   },
   "main": "lib/svg-m2png.js",
   "bin": {
-    "svg-m2png": "./bin/cli",
-    "svg-m2png2": "./bin/cli2"
+    "svg-m2png": "./bin/cli"
   },
   "repository": {
     "type": "git",
